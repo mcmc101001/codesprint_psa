@@ -1,9 +1,43 @@
-from django.shortcuts import render
-
+import re
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+from .models import CustomUser, Task
+
+# Main page
 def index(request):
-    return render(request, "main/index.html")
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("main:login"))
+    else:
+        return render(request, "main/index.html")
+
+# Profile page
+@login_required
+def profile(request):
+    current_user = request.user
+    #tasks = 
+    return render(request, 'main/profile.html', {
+        "user": current_user
+        #"tasks": tasks
+    })
+
+# logging in and out
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username = username, password = password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse("main:index"))
+        else:
+            return render(request, 'main/login.html', {
+                "message": "Incorrect username or password"
+            })
+    return render(request, 'main/login.html')
+
+def logout_view(request):
+    pass

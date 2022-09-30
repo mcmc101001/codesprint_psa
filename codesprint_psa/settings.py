@@ -70,6 +70,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'codesprint_psa.wsgi.application'
 
+# User
+# AUTH_USER_MODEL = 'main.CustomUser'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases

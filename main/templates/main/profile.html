@@ -1,0 +1,21 @@
+{% extends "main/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <ul>
+            <li>Name: {{ user.first_name }} {{ user.last_name }} </li>
+            <li>Username: {{ user.username }} </li>
+            <li>Department: {{ user.department }} </li>
+            <li>Points: {{ user.points }} </li>
+        </ul>
+        <h2> Tasks </h2>
+        <ul>
+            {% for task in tasks %}
+                <li>{{ task }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+{% endblock %}

@@ -1,3 +1,36 @@
 from django.db import models
 
+from django.contrib.auth.models import User
+
 # Create your models here.
+class Task(models.Model):
+    
+    STATUS = (
+        ('Incomplete', 'Incomplete'),
+        ('Ongoing', 'Ongoing'),
+        ('Completed', 'Completed'),
+    )
+    name = models.CharField(max_length = 64)
+    points_granted = models.IntegerField()
+    status = models.CharField(max_length=100, choices=STATUS, default='Incomplete')
+    
+    def __str__(self):
+        return self.name
+    
+
+class CustomUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    DEPARTMENT = (
+        ('Operations', 'Operations'),
+        ('Infocomm technology', 'Infocomm technology'),
+        ('Engineering', 'Engineering'),
+        ('Corportate', 'Corporate')
+    )
+    email = models.EmailField(unique=True)
+    department = models.CharField(max_length=100, choices=DEPARTMENT)
+    description = models.TextField("Description", max_length=600, default='', blank=True)
+    points = models.IntegerField(default=0)
+    tasks = models.ManyToManyField(Task, blank=True, related_name='users')
+
+    def __str__(self):
+        return self.user.username
