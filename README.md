@@ -10,3 +10,9 @@ pip3 install django
 ```
 python manage.py runserver
 ```
+
+##modifying models
+```
+python manage.py makemigrations
+python manage.py migrate
+```
