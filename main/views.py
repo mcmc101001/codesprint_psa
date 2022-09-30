@@ -15,13 +15,13 @@ def index(request):
         return render(request, "main/index.html")
 
 # Profile page
-@login_required
+@login_required(login_url='/main/login')
 def profile(request):
-    current_user = request.user
-    #tasks = 
+    current_user = CustomUser.objects.get(user=request.user)
+    tasks = current_user.tasks.all()
     return render(request, 'main/profile.html', {
-        "user": current_user
-        #"tasks": tasks
+        "user": current_user,
+        "tasks": tasks
     })
 
 # logging in and out
@@ -40,4 +40,7 @@ def login_view(request):
     return render(request, 'main/login.html')
 
 def logout_view(request):
-    pass
+    logout(request)
+    return render(request, 'main/login.html', {
+        "message": "Logged out successfully"
+    })

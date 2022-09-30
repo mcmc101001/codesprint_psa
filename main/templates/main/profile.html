@@ -3,8 +3,8 @@
 {% block body %}
     <div class="container">
         <ul>
-            <li>Name: {{ user.first_name }} {{ user.last_name }} </li>
-            <li>Username: {{ user.username }} </li>
+            <li>Name: {{ user.user.first_name }} {{ user.user.last_name }} </li>
+            <li>Username: {{ user.user.username }} </li>
             <li>Department: {{ user.department }} </li>
             <li>Points: {{ user.points }} </li>
         </ul>
@@ -14,6 +14,7 @@
                 <li>{{ task }}</li>
             {% endfor %}
         </ul>
+        <a href="{% url 'main:logout' %}">Log out</a>
     </div>
     {% if message %}
         <div>{{ message }}</div>
