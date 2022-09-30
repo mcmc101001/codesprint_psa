@@ -3,6 +3,7 @@
 ## settingup
 ```
 git clone https://github.com/mcmc101001/codesprint_psa
+python -m pip install --upgrade pip
 pip3 install django
 ```
 
