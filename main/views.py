@@ -24,6 +24,24 @@ def profile(request):
         "tasks": tasks
     })
 
+# Tasks page
+@login_required(login_url='/main/login')
+def tasks(request):
+    current_user = CustomUser.objects.get(user=request.user)
+    tasks = current_user.tasks.all()
+    return render(request, 'main/tasks.html', {
+        "user": current_user,
+        "tasks": tasks
+    })
+
+@login_required(login_url='/main/login')
+def edit_task(request):
+     if request.method == "POST":
+        task = Task.objects.get(pk=int(request.POST['task_id']))
+        task.status = request.POST['task_status']
+        task.save()
+        return HttpResponseRedirect(reverse('main:tasks'))
+    
 # logging in and out
 def login_view(request):
     if request.method == "POST":
