@@ -1,0 +1,41 @@
+{% extends "main/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="display-2">List of users</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Users</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in user_list %}
+            <tr>
+              <td scope="row">{{ user.user.username }}</th>
+              <td>
+                {% if user in following %}
+                    <h4>Following</h4>
+                {% elif user in requested %}
+                    <h4>Requested</h4>
+                {% else %}
+                    <form action="{% url 'main:follow' %}" method="post">
+                        {% csrf_token %}
+                        <button value='{{ user.id }}' name='user_id' type='submit'>Follow</button>
+                    </form>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <ul>
+            
+        </ul>
+        <a href="{% url 'main:logout' %}">Log out</a>
+    </div>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+{% endblock %}

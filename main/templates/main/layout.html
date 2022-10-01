@@ -12,7 +12,35 @@
         crossorigin="anonymous"></script>
     </head>
     <body>
-        {% block body %}
-        {% endblock %}
+        <div class = "container-xxl">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                <div class="container-xl" margin-top=0px>
+                    <a class="navbar-brand" href="{% url 'main:index' %}">Home</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <nav class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Links-->
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'main:profile' %}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'main:tasks' %}">Tasks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{% url 'main:users' %}">Users</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div class>
+        <div class = "container-xxl body-container">
+            {% block body%}
+            {% endblock %}
+        </div class>
     </body>
 </html>

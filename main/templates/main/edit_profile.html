@@ -2,18 +2,19 @@
 
 {% block body %}
     <div class="container">
-        <form>
+        <form action="{% url 'main:update_profile' %}" method="post">
+          {% csrf_token %}
             <div class="form-group">
                 <label for="username">Username</label>
-                <input value={{ user.user.username }} class="form-control" type="text" placeholder="Default input" id="username">
+                <input name="username" value={{ user.user.username }} class="form-control" type="text" placeholder="Default input" id="username">
             </div>
             <div class="form-group">
                 <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" value={{ user.email }}>
+                <input type="email" name="email" class="form-control" id="email" value={{ user.email }}>
               </div>
             <div class="form-group">
                 <label for="department">Department</label>
-                <select class="form-control" id="department">
+                <select class="form-control" id="department" name="department">
                   <option {% if user.department == "Operations" %} selected {% endif %}>Operations</option>
                   <option {% if user.department == "Infocomm technology" %} selected {% endif %}>Infocomm technology</option>
                   <option {% if user.department == "Engineering" %} selected {% endif %}>Engineering</option>
@@ -22,15 +23,6 @@
               </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
-        <ul>
-            <li>Name: {{ user.user.first_name }} {{ user.user.last_name }} </li>
-            <li>Username: {{ user.user.username }} </li>
-            <li>Department: {{ user.department }} </li>
-            <li>Points: {{ user.points }} </li>
-        </ul>
         <a href="{% url 'main:logout' %}">Log out</a>
     </div>
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
 {% endblock %}

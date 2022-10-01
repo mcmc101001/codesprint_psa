@@ -14,16 +14,16 @@
           <tbody>
             {% for task in tasks %}
             <tr>
-              <th scope="row">{{ task.name }}</th>
+              <td scope="row">{{ task.name }}</th>
               <td>{{ task.status }}</td>
               <td>
                 <form action="{% url 'main:edit_task' %}" method="post">
                   {% csrf_token %}
                   <label for="status">Status:</label>
                     <select name='task_status' id="status">
-                        <option value="Incomplete">Incomplete</option>
-                        <option value="Ongoing">Ongoing</option>
-                        <option value="Completed">Completed</option>
+                      <option {% if task.status == "Incomplete" %} selected {% endif %}>Incomplete</option>
+                      <option {% if task.status == "Ongoing" %} selected {% endif %}>Ongoing</option>
+                      <option {% if task.status == "Completed" %} selected {% endif %}>Completed</option>
                     </select>
                   <button value='{{ task.id }}' name='task_id' type='submit'>Submit</button>
                 </form>

@@ -1,7 +1,46 @@
 {% extends "main/layout.html" %}
 
 {% block body %}
-<h1> hello world </h1>
-<a href="{% url 'main:profile' %}">Profile</a>
-<a href="{% url 'main:tasks' %}">Tasks</a>
+<h1 class="display-2">Following</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Users</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for followed in following %}
+    <tr>
+        <td scope="row">{{ followed.following.user.username }}</th>
+        <td>idk</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h1 class="display-2">Requests</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Users</th>
+        <th scope="col">Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for request in requests %}
+    <tr>
+        <td scope="row">{{ request.requestor.user.username }}</th>
+        <td> 
+            <form action="{% url 'main:modify_request' %}" method="post">
+            {% csrf_token %}
+                <input type="hidden" value='{{ request.requestor.id }}' name="requestor_id">
+                <button value=True name='outcome' type='submit'>Accept</button>
+                <button value=False name='outcome' type='submit'>Reject</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'main:logout' %}">Log out</a>
 {% endblock %}

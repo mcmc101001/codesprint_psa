@@ -5,6 +5,7 @@
         <ul>
             <li>Name: {{ user.user.first_name }} {{ user.user.last_name }} </li>
             <li>Username: {{ user.user.username }} </li>
+            <li>Email: {{ user.email }} </li>
             <li>Department: {{ user.department }} </li>
             <li>Points: {{ user.points }} </li>
         </ul>
@@ -14,10 +15,8 @@
                 <li>{{ task }}</li>
             {% endfor %}
         </ul>
+        <h2> {% if message %} {{message}} {% endif %} </h2>
         <a href="{% url 'main:edit_profile' %}">Edit Profile</a>
         <a href="{% url 'main:logout' %}">Log out</a>
     </div>
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
 {% endblock %}

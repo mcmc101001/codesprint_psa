@@ -4,6 +4,11 @@ body {
     color: #000000;
 }
 
+.body-container {
+    margin-top: 5rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
 .form-group {
     margin-top: 3px;
 }
