@@ -61,6 +61,15 @@ def modify_request(request):
         request.delete()
         return HttpResponseRedirect(reverse('main:index'))
 
+@login_required(login_url='/main/login')
+def user_profile(request, user_id):
+    user = CustomUser.objects.get(pk = user_id)
+    tasks = user.tasks.all()
+    return render(request, 'main/user_profile.html', {
+        "user": user,
+        "tasks": tasks,
+    })
+
 #### PROFILE MODULE ####
 # Profile page
 @login_required(login_url='/main/login')

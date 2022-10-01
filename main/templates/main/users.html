@@ -13,7 +13,8 @@
           <tbody>
             {% for user in user_list %}
             <tr>
-              <td scope="row">{{ user.user.username }}</th>
+              <td scope="row">
+                <a href="{% url 'main:user_profile' user.id %}">{{ user.user.username }}</a>
               <td>
                 {% if user in following %}
                     <h4>Following</h4>

@@ -32,7 +32,7 @@
         <td scope="row">{{ request.requestor.user.username }}</th>
         <td> 
             <form action="{% url 'main:modify_request' %}" method="post">
-            {% csrf_token %}
+                {% csrf_token %}
                 <input type="hidden" value='{{ request.requestor.id }}' name="requestor_id">
                 <button value=True name='outcome' type='submit'>Accept</button>
                 <button value=False name='outcome' type='submit'>Reject</button>
