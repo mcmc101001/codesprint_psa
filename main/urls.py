@@ -20,5 +20,8 @@ urlpatterns = [
     path('update_profile', views.update_profile, name='update_profile'),
     #tasks
     path('tasks', views.tasks, name="tasks"),
-    path('edit_task', views.edit_task, name="edit_task")
+    path('edit_task', views.edit_task, name="edit_task"),
+    #tasks
+    path('marketplace', views.marketplace, name="marketplace"),
+    path('redeem_reward', views.redeem_reward, name="redeem_reward"),
 ]
