@@ -23,7 +23,7 @@
               <td>
                 <form action="{% url 'main:add_to_cart' %}" method="post">
                   {% csrf_token %}
-                  <button value='{{ listing.id }}' name='listing_id' type='submit'>Redeem</button>
+                  <button value='{{ listing.id }}' name='listing_id' type='submit'>Add to cart</button>
                 </form>
               </td>
             </tr>

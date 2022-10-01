@@ -78,10 +78,12 @@ def user_profile(request, user_id):
 @login_required(login_url='/main/login')
 def profile(request):
     current_user = CustomUser.objects.get(user=request.user)
-    tasks = current_user.tasks.all()
+    in_progress = current_user.tasks.filter(status="In progress")
+    completed = current_user.tasks.filter(status="Completed")
     return render(request, 'main/profile.html', {
         "user": current_user,
-        "tasks": tasks,
+        "in_progress": in_progress,
+        "completed": completed,
     })
 
 @login_required(login_url='/main/login')
@@ -143,12 +145,26 @@ def add_to_cart(request):
             return render(request, 'main/marketplace.html', {
                 "message": "Sold out :("
             })
-        else:
-            pass
+        user_cart = Cart(user=current_user)
+        user_cart.save()
+        user_cart.reward.add(reward)
+        return HttpResponseRedirect(reverse('main:marketplace'))
 
             
 def view_cart(request):
-    pass
+    current_user = CustomUser.objects.get(user=request.user)
+    in_cart = []
+    counting = []
+    rewards = Reward.objects.all()
+    for reward in rewards:
+        count = Cart.objects.filter(user=current_user, reward=reward).count()
+        if count:
+            in_cart.append(reward)
+            counting.append(count)
+    return render(request, 'main/cart.html', {
+        "rewards": in_cart,
+        "count": count
+    })
 
 def checkout(request):
     pass
@@ -157,11 +173,13 @@ def checkout(request):
 # Tasks page
 @login_required(login_url='/main/login')
 def tasks(request):
-    current_user = CustomUser.objects.get(user=request.user)
-    tasks = current_user.tasks.all()
+    to_do = Task.objects.filter(status="To do")
+    in_progress = Task.objects.filter(status="In progress")
+    completed = Task.objects.filter(status="Completed")
     return render(request, 'main/tasks.html', {
-        "user": current_user,
-        "tasks": tasks
+        "to_do": to_do,
+        "in_progress": in_progress,
+        "completed": completed,
     })
 
 @login_required(login_url='/main/login')

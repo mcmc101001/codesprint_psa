@@ -58,5 +58,5 @@ class Reward(models.Model):
         return self.name
 
 class Cart(models.Model):
-    user = models.OneToOneField(CustomUser, related_name="customer", on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, related_name="carts", on_delete=models.CASCADE)
     reward = models.ManyToManyField(Reward, blank=True, related_name='rewards')

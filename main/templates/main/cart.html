@@ -1,0 +1,37 @@
+{% extends "main/layout.html" %}
+
+{% block body %}
+    <div class="container">
+      <div class="col-sm">
+        <h1 class="display-4">Cart</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for reward in rewards %}
+          <tr>
+            <td scope="row">{{ reward.name }}</td>
+            <td>{{ reward.description }}</td>
+            <td>{{ count }}</td>
+            <td>{{ reward.cost }}*{{ count }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <form action="{% url 'main:checkout' %}" method="post">
+        {% csrf_token %}
+        <button value='cart.id' name='cart_id' type='submit'>Checkout</button>
+      </form>
+      </div>
+        <a href="{% url 'main:logout' %}">Log out</a>
+    </div>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+{% endblock %}
