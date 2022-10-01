@@ -9,14 +9,14 @@ from datetime import datetime
 class Task(models.Model):
     
     STATUS = (
-        ('To do', 'To do'),
-        ('In progress', 'In progress'),
+        ('Incomplete', 'Incomplete'),
+        ('Ongoing', 'Ongoing'),
         ('Completed', 'Completed'),
     )
     name = models.CharField(max_length = 64)
     description = models.TextField("Description", max_length=600, default='', blank=True)
     points_granted = models.IntegerField()
-    status = models.CharField(max_length=100, choices=STATUS, default='To do')
+    status = models.CharField(max_length=100, choices=STATUS, default='Incomplete')
     
     def __str__(self):
         return self.name

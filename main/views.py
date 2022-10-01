@@ -158,14 +158,10 @@ def checkout(request):
 @login_required(login_url='/main/login')
 def tasks(request):
     current_user = CustomUser.objects.get(user=request.user)
-    to_do = Task.objects.filter(status="To do")
-    in_progress = Task.objects.filter(status="In progress")
-    completed = Task.objects.filter(status="Completed")
+    tasks = current_user.tasks.all()
     return render(request, 'main/tasks.html', {
         "user": current_user,
-        "to_do": to_do,
-        "in_progress": in_progress,
-        "completed": completed,
+        "tasks": tasks
     })
 
 @login_required(login_url='/main/login')

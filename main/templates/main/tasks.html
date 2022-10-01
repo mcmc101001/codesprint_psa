@@ -2,13 +2,12 @@
 
 {% block body %}
     <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <h1 class="display-4">To do</h1>
+        <h1 class="display-2">Tasks</h1>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">Task</th>
+
               <th scope="col">Description</th>
               <th scope="col">Collaborators</th>
               <th scope="col">Points Granted</th>
@@ -16,9 +15,10 @@
             </tr>
           </thead>
           <tbody>
-            {% for task in to_do %}
+            {% for task in tasks %}
             <tr>
               <td scope="row">{{ task.name }}</th>
+
               <td>{{ task.description }}</td>
               <td>{% for user in task.users.all %} {{user.user.username}} {% endfor %}</td>
               <td>{{ task.points_granted }}</td>
@@ -27,8 +27,8 @@
                   {% csrf_token %}
                   <label for="status">Status:</label>
                     <select name='task_status' id="status">
-                      <option {% if task.status == "To do" %} selected {% endif %}>To do</option>
-                      <option {% if task.status == "In progress" %} selected {% endif %}>In progress</option>
+                      <option {% if task.status == "Incomplete" %} selected {% endif %}>Incomplete</option>
+                      <option {% if task.status == "Ongoing" %} selected {% endif %}>Ongoing</option>
                       <option {% if task.status == "Completed" %} selected {% endif %}>Completed</option>
                     </select>
                   <button value='{{ task.id }}' name='task_id' type='submit'>Submit</button>
