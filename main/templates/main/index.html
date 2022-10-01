@@ -10,12 +10,12 @@
     </tr>
     </thead>
     <tbody>
-    {% for followed in following %}
-    <tr>
-        <td scope="row">{{ followed.following.user.username }}</th>
-        <td>idk</td>
-    </tr>
-    {% endfor %}
+        {% for follow in following %}
+        <tr>
+            <td scope="row">{{ follow.following.user.username }}</th>
+            <td>idk</td>
+        </tr>
+        {% endfor %}
     </tbody>
 </table>
 <h1 class="display-2">Requests</h1>
@@ -34,8 +34,8 @@
             <form action="{% url 'main:modify_request' %}" method="post">
                 {% csrf_token %}
                 <input type="hidden" value='{{ request.requestor.id }}' name="requestor_id">
-                <button value=True name='outcome' type='submit'>Accept</button>
-                <button value=False name='outcome' type='submit'>Reject</button>
+                <button value="True" name='outcome' type='submit'>Accept</button>
+                <button type='submit'>Reject</button>
             </form>
         </td>
     </tr>

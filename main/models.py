@@ -3,7 +3,7 @@ from django.db import models
 
 from django.contrib.auth.models import User
 
-import datetime
+from datetime import datetime
 
 # Create your models here.
 class Task(models.Model):
@@ -39,13 +39,13 @@ class CustomUser(models.Model):
         return self.user.username
 
 class Request(models.Model):
-    requestor = models.OneToOneField(CustomUser, related_name="request", on_delete=models.CASCADE)
-    requested = models.OneToOneField(CustomUser, related_name="requested_by", on_delete=models.CASCADE)
+    requestor = models.ForeignKey(CustomUser, related_name="from_request", on_delete=models.CASCADE)
+    requested = models.ForeignKey(CustomUser, related_name="to_request", on_delete=models.CASCADE)
 
 class Follow(models.Model):
-    follower = models.OneToOneField(CustomUser, related_name="follow", on_delete=models.CASCADE)
-    following = models.OneToOneField(CustomUser, related_name="followed_by", on_delete=models.CASCADE)
-    datetime = models.DateTimeField()
+    follower = models.ForeignKey(CustomUser, related_name="from_follow", on_delete=models.CASCADE)
+    following = models.ForeignKey(CustomUser, related_name="to_follow", on_delete=models.CASCADE)
+    date = models.DateField()
 
 class Reward(models.Model):
     name = models.CharField(max_length = 64)

@@ -1,4 +1,4 @@
-import re, datetime
+import re
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .models import CustomUser, Request, Task, Reward, User, Follow
+
+from datetime import datetime
 
 # Main page
 @login_required(login_url='/main/login')
@@ -29,7 +31,7 @@ def users(request):
     for user in other_users:
         if Follow.objects.filter(follower = current_user, following = user):
             following.append(user)
-        elif Request.objects.filter(requestor=current_user):
+        elif Request.objects.filter(requestor=current_user, requested=user):
             requested.append(user)
     return render(request, 'main/users.html', {
         "user_list": other_users,
@@ -47,15 +49,15 @@ def follow(request):
 
 def modify_request(request):
     if request.method == "POST":
-        current_datetime = datetime.datetime.now()
         current_user = CustomUser.objects.get(user=request.user)
-        outcome = request.POST["outcome"]
+        try:
+            outcome = request.POST["outcome"]
+        except:
+            outcome = "NO"
         requestor_id = int(request.POST["requestor_id"])
         requestor = CustomUser.objects.get(pk = requestor_id)
-        if outcome == True:
-            follow = Follow(follower=requestor,
-                            following=current_user,
-                            datetime=current_datetime)
+        if outcome == "True":
+            follow = Follow(follower=requestor, following=current_user, date=datetime.now().date())
             follow.save()
         request = Request.objects.get(requestor=requestor, requested=current_user)
         request.delete()
