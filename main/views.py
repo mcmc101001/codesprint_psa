@@ -136,10 +136,14 @@ def redeem_reward(request):
 @login_required(login_url='/main/login')
 def tasks(request):
     current_user = CustomUser.objects.get(user=request.user)
-    tasks = current_user.tasks.all()
+    to_do = Task.objects.filter(status="To do")
+    in_progress = Task.objects.filter(status="In progress")
+    completed = Task.objects.filter(status="Completed")
     return render(request, 'main/tasks.html', {
         "user": current_user,
-        "tasks": tasks
+        "to_do": to_do,
+        "in_progress": in_progress,
+        "completed": completed,
     })
 
 @login_required(login_url='/main/login')
