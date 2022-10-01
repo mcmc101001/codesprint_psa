@@ -24,6 +24,13 @@ def profile(request):
         "tasks": tasks
     })
 
+@login_required(login_url='/main/login')
+def edit_profile(request):
+    current_user = CustomUser.objects.get(user=request.user)
+    return render(request, 'main/edit_profile.html', {
+        "user": current_user,
+    })
+
 # Tasks page
 @login_required(login_url='/main/login')
 def tasks(request):
