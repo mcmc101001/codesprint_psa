@@ -2,10 +2,11 @@ import re
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.db.models import Value
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from .models import CustomUser, Request, Task, Reward, User, Follow
+from .models import CustomUser, Request, Task, Reward, User, Follow, Cart
 
 from datetime import datetime
 
@@ -124,13 +125,34 @@ def update_profile(request):
 # Listings page
 @login_required(login_url='/main/login')
 def marketplace(request):
+    redeemed = Reward.objects.filter(quantity = 0)
     return render(request, 'main/marketplace.html', {
         "listings": Reward.objects.all(),
+        "redeemed": redeemed
     })
 
-def redeem_reward(request):
+def add_to_cart(request):
+    if request.method == "POST":
+        reward = Reward.objects.get(pk=request.POST["listing_id"])
+        current_user = CustomUser.objects.get(user=request.user)
+        if current_user.points < reward.cost:
+            return render(request, 'main/marketplace.html', {
+                "message": "Insufficient points"
+            })
+        elif reward.quantity <= 0:
+            return render(request, 'main/marketplace.html', {
+                "message": "Sold out :("
+            })
+        else:
+            pass
+
+            
+def view_cart(request):
     pass
-        
+
+def checkout(request):
+    pass
+
 #### TASK MODULE ####
 # Tasks page
 @login_required(login_url='/main/login')

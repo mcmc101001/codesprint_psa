@@ -21,9 +21,9 @@
               <td>{{ listing.quantity }}</td>
               <td>{{ listing.cost }}</td>
               <td>
-                <form action="{% url 'main:redeem_reward' %}" method="post">
+                <form action="{% url 'main:add_to_cart' %}" method="post">
                   {% csrf_token %}
-                  <button value='{{ listing.id }}' name='listing_id' type='submit'>Submit</button>
+                  <button value='{{ listing.id }}' name='listing_id' type='submit'>Redeem</button>
                 </form>
               </td>
             </tr>

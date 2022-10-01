@@ -11,7 +11,7 @@
               <th scope="col">Task</th>
               <th scope="col">Description</th>
               <th scope="col">Collaborators</th>
-              <th scope="col">Status</th>
+              <th scope="col">Points Granted</th>
               <th scope="col">Update Progress</th>
             </tr>
           </thead>
@@ -21,7 +21,7 @@
               <td scope="row">{{ task.name }}</th>
               <td>{{ task.description }}</td>
               <td>{% for user in task.users.all %} {{user.user.username}} {% endfor %}</td>
-              <td>{{ task.status }}</td>
+              <td>{{ task.points_granted }}</td>
               <td>
                 <form action="{% url 'main:edit_task' %}" method="post">
                   {% csrf_token %}
@@ -47,7 +47,7 @@
               <th scope="col">Task</th>
               <th scope="col">Description</th>
               <th scope="col">Collaborators</th>
-              <th scope="col">Status</th>
+              <th scope="col">Points Granted</th>
               <th scope="col">Update Progress</th>
             </tr>
           </thead>
@@ -56,8 +56,8 @@
             <tr>
               <td scope="row">{{ task.name }}</th>
               <td>{{ task.description }}</td>
-              <td>{{ task.users }}</td>
-              <td>{{ task.status }}</td>
+              <td>{% for user in task.users.all %} {{user.user.username}} {% endfor %}</td>
+              <td>{{ task.points_granted }}</td>
               <td>
                 <form action="{% url 'main:edit_task' %}" method="post">
                   {% csrf_token %}
@@ -82,7 +82,7 @@
             <th scope="col">Task</th>
             <th scope="col">Description</th>
             <th scope="col">Collaborators</th>
-            <th scope="col">Status</th>
+            <th scope="col">Points Granted</th>
             <th scope="col">Update Progress</th>
           </tr>
         </thead>
@@ -92,7 +92,7 @@
             <td scope="row">{{ task.name }}</th>
             <td>{{ task.description }}</td>
             <td>{{ task.users }}</td>
-            <td>{{ task.status }}</td>
+            <td>{{ task.points_granted }}</td>
               <td>
                 <form action="{% url 'main:edit_task' %}" method="post">
                   {% csrf_token %}

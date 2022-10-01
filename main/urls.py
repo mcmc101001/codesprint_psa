@@ -23,5 +23,7 @@ urlpatterns = [
     path('edit_task', views.edit_task, name="edit_task"),
     #tasks
     path('marketplace', views.marketplace, name="marketplace"),
-    path('redeem_reward', views.redeem_reward, name="redeem_reward"),
+    path('add_to_cart', views.add_to_cart, name="add_to_cart"),
+    path('view_cart', views.view_cart, name="view_cart"),
+    path('checkout', views.checkout, name="checkout"),
 ]
