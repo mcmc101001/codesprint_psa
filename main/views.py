@@ -119,6 +119,17 @@ def update_profile(request):
                 "tasks": tasks,
                 "message": message
             })
+
+#### MARKETPLACE MODULE ####
+# Listings page
+@login_required(login_url='/main/login')
+def marketplace(request):
+    return render(request, 'main/marketplace.html', {
+        "listings": Reward.objects.all(),
+    })
+
+def redeem_reward(request):
+    pass
         
 #### TASK MODULE ####
 # Tasks page

@@ -1,0 +1,38 @@
+{% extends "main/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="display-2">Marketplace</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Description</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Cost</th>
+              <th scope="col">Redeem</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for listing in listings %}
+            <tr>
+              <td scope="row">{{ listing.name }}</th>
+              <td>{{ listing.description }}</td>
+              <td>{{ listing.quantity }}</td>
+              <td>{{ listing.cost }}</td>
+              <td>
+                <form action="{% url 'main:redeem_reward' %}" method="post">
+                  {% csrf_token %}
+                  <button value='{{ listing.id }}' name='listing_id' type='submit'>Submit</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a href="{% url 'main:logout' %}">Log out</a>
+    </div>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+{% endblock %}

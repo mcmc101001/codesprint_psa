@@ -14,6 +14,7 @@ class Task(models.Model):
         ('Completed', 'Completed'),
     )
     name = models.CharField(max_length = 64)
+    description = models.TextField("Description", max_length=600, default='', blank=True)
     points_granted = models.IntegerField()
     status = models.CharField(max_length=100, choices=STATUS, default='Incomplete')
     
@@ -52,3 +53,6 @@ class Reward(models.Model):
     description = models.TextField("Description", max_length=600, default='', blank=True)
     quantity = models.IntegerField()
     cost = models.IntegerField()
+    
+    def __str__(self):
+        return self.name

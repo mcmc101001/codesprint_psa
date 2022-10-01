@@ -9,6 +9,10 @@
                 <input name="username" value={{ user.user.username }} class="form-control" type="text" placeholder="Default input" id="username">
             </div>
             <div class="form-group">
+              <label for="aboutme">About me</label>
+              <textarea class="form-control" id="about me" rows="5">{{ user.description }}</textarea>
+            </div>
+            <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" name="email" class="form-control" id="email" value={{ user.email }}>
               </div>
