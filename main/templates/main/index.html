@@ -13,7 +13,13 @@
         {% for follow in following %}
         <tr>
             <td scope="row">{{ follow.following.user.username }}</th>
-            <td>idk</td>
+            <td>Working on
+                {% for task in follow.following.tasks.all %}
+                {% if task.status == 'In progress' %}    
+                {{ task.name }}
+                {% endif %}
+                {% endfor %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

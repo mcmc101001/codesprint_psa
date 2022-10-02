@@ -9,14 +9,14 @@ from datetime import datetime
 class Task(models.Model):
     
     STATUS = (
-        ('Incomplete', 'Incomplete'),
-        ('Ongoing', 'Ongoing'),
+        ('To do', 'To do'),
+        ('In progress', 'In progress'),
         ('Completed', 'Completed'),
     )
     name = models.CharField(max_length = 64)
     description = models.TextField("Description", max_length=600, default='', blank=True)
     points_granted = models.IntegerField()
-    status = models.CharField(max_length=100, choices=STATUS, default='Incomplete')
+    status = models.CharField(max_length=100, choices=STATUS, default='To do')
     
     def __str__(self):
         return self.name
@@ -59,4 +59,5 @@ class Reward(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, related_name="carts", on_delete=models.CASCADE)
-    reward = models.ManyToManyField(Reward, blank=True, related_name='rewards')
+    reward = models.ForeignKey(Reward, blank=True, related_name='rewards', on_delete=models.CASCADE)
+    count = models.IntegerField(default=0)
