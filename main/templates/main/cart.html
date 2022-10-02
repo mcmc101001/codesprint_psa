@@ -23,9 +23,9 @@
                 <form action="{% url 'main:edit_quantity' %}" method="post">
                 {% csrf_token %}
                 <input type='hidden' value={{ cart_item.id }} name='cart_id'>
-                <button value='Minus' name='minus' type='submit'>Minus</button>
+                <button value='Minus' name='minus' type='submit'>-</button>
                 {{ cart_item.count }}
-                <button value='Add' name='add' type='submit'>Add</button>
+                <button value='Add' name='add' type='submit'>+</button>
                 </form>
               </td>
               <td>{% widthratio cart_item.reward.cost 1 cart_item.count %}</td>
