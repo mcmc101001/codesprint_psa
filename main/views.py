@@ -16,9 +16,11 @@ def index(request):
     current_user = CustomUser.objects.get(user=request.user)
     following = Follow.objects.filter(follower = current_user)
     requests = Request.objects.filter(requested = current_user)
+    top_users = CustomUser.objects.order_by('-points')[:3]
     return render(request, "main/index.html", {
         "following": following,
         "requests": requests,
+        "top_users": top_users
     })
 
 #### SOCIAL MODULE ####
@@ -178,6 +180,8 @@ def edit_quantity(request):
         else:
             cart.count -= 1
         cart.save()
+        if cart.count == 0:
+            cart.delete()
         return HttpResponseRedirect(reverse('main:view_cart'))
 
 def checkout(request):

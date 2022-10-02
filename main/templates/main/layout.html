@@ -59,7 +59,9 @@
                                     href="{% url 'main:marketplace' %}">Marketplace</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'main:view_cart' %}">Cart</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'main:view_cart' %}">
+                                    Cart {% if cart_count > 0 %} ({{cart_count}}) {% endif %}
+                                </a>
                             </li>
                         </ul>
                     </nav>
