@@ -14,7 +14,7 @@
 
     <body>
         <!--Navbar start-->
-        <div class = "container-xxl">
+        <div class="container-xxl">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div class="container-xl" margin-top=0px>
                     <a class="navbar-brand" href="{% url 'main:index' %}">Home</a>
@@ -36,12 +36,16 @@
                                 <a class="nav-link active" aria-current="page" href="{% url 'main:users' %}">Users</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{% url 'main:marketplace' %}">Marketplace</a>
+                                <a class="nav-link active" aria-current="page"
+                                    href="{% url 'main:marketplace' %}">Marketplace</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="{% url 'main:view_cart' %}">Cart</a>
                             </li>
                         </ul>
+                    </nav>
+                    <div class="float-right">
+                        <a href="{ % url 'main:logout' %}">Log out</a>
                     </div>
                 </div>
             </nav>
