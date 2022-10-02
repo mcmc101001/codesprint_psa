@@ -17,6 +17,12 @@ body {
     margin-top: 3rem !important;
 }
 
+.masthead{
+    background-size: cover;
+    min-height: 100vh;
+    position: relative;
+}
+
 .btn {
     margin-top: 5px;
 }

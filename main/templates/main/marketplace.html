@@ -1,37 +1,170 @@
-{% extends "main/layout.html" %}
+{% load static %}
 
-{% block body %}
-    <div class="container">
-        <h1 class="display-2">Marketplace</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Item</th>
-              <th scope="col">Description</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Cost</th>
-              <th scope="col">Redeem</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for listing in listings %}
-            <tr>
-              <td scope="row">{{ listing.name }}</th>
-              <td>{{ listing.description }}</td>
-              <td>{{ listing.quantity }}</td>
-              <td>{{ listing.cost }}</td>
-              <td>
-                <form action="{% url 'main:add_to_cart' %}" method="post">
-                  {% csrf_token %}
-                  <button value='{{ listing.id }}' name='listing_id' type='submit'>Add to cart</button>
-                </form>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+<!DOCTYPE html>
+<html language="en">
+
+<head>
+  <title>Profile</title>
+  <!-- Favicon -->
+  <link href="img/favicon.ico" rel="icon">
+
+  <!-- Google Web Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Libraries Stylesheet -->
+  <link href="{% static 'profile/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'profile/lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+
+  <!--Link to bootstrap-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!--Link to template's customised bootstrap stylesheet-->
+  <!--TODO: check if any css needs to be migrated from our personal css-->
+  <link href="{% static 'styles.css' %}" rel="stylesheet">
+  <link href="{% static 'profile/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="51">
+  {% block body %}
+  <!--Navbar start-->
+  <div class="container-xxl">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container-xl" margin-top=0px>
+        <a class="navbar-brand" href="{% url 'main:index' %}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <nav class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main:profile' %}">Profile</a>
+              <!--TODO: Insert a dropdown menu to incorporate "About me"-->
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main:tasks' %}">Tasks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main:users' %}">Users</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main:marketplace' %}">Marketplace</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'main:view_cart' %}">Cart</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="float-right">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- <li class="nav-item">
+                            <p class="navbar-brand">Points: {{ user.points }}</p>
+                        </li> -->
+            <li class="nav-item">
+              <a class="nav-link active" href="{ % url 'main:logout' %}">Log out</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div class>
+  <!--Navbar end-->
+
+<!-- Header Start -->
+<div class="masthead color-overlay container-fluid d-flex justify-content-center align-items-center mb-5 py-5 bg-image" id="home" style="background-image: url('https://c4.wallpaperflare.com/wallpaper/184/8/24/ferris-wheel-theme-parks-water-lights-wallpaper-preview.jpg'); height: 100vh;">
+  <!--Migrate wallpaper locally instead of from an online source, currently having issues with it-->
+  <div class="container col-lg-5">
+    <div class="row align-items-left bg-dark bg-success bg-opacity-10">
+      <div class="col-lg-7 text-center text-lg-left">
+        <h3 class="text-white font-weight-normal mb-3">Welcome to</h3>
+        <h1 class="display-3 text-uppercase text-primary mb-2" style="-webkit-text-stroke: 2px #ffffff;">PSA Marketplace!</h1>
+        <h1 class="typed-text-output d-inline font-weight-lighter text-white"></h1>
+        <div class="typed-text d-none">Work hard, Play hard</div>
+      </div>
     </div>
-    {% if message %}
-        <div>{{ message }}</div>
-    {% endif %}
-{% endblock %}
+  </div>
+</div>
+<!-- Header End -->
+
+<!--Create carousell-->
+<div class="container">
+  <h1 class="display-2">Marketplace</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Description</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Cost</th>
+        <th scope="col">Redeem</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for listing in listings %}
+      <tr>
+        <td scope="row">{{ listing.name }}</th>
+        <td>{{ listing.description }}</td>
+        <td>{{ listing.quantity }}</td>
+        <td>{{ listing.cost }}</td>
+        <td>
+          <form action="{% url 'main:add_to_cart' %}" method="post">
+            {% csrf_token %}
+            <button value='{{ listing.id }}' name='listing_id' type='submit'>Add to cart</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% if message %}
+<div>{{ message }}</div>
+{% endif %}
+
+<!-- Footer Start -->
+<div class="container-fluid bg-primary text-white mt-5 py-5 px-sm-3 px-md-5">
+  <div class="container text-center py-5">
+    <p class="m-0">&copy; <a class="text-white font-weight-bold" href="#">PSA</a>. All Rights Reserved.
+    </p>
+  </div>
+</div>
+<!-- Footer End -->
+
+<!-- Scroll to Bottom -->
+<i class="fa fa-2x fa-angle-down text-white scroll-to-bottom"></i>
+
+<!-- Back to Top -->
+<a href="#" class="btn btn-outline-dark px-0 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+  <!-- JavaScript Libraries -->
+  <!--TODO: Get it done later-->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="{% static 'profile/lib/typed/typed.js' %}"></script>
+  <script src="{% static 'profile/lib/easing/easing.js' %}"></script>
+  <script src="{% static 'profile/lib/waypoints/waypoints.js' %}"></script>
+  <script src="{% static 'profile/lib/owlcarousel/owl.carousel.js' %}"></script>
+  <script src="{% static 'profile/lib/isotope/isotope.pkgd.js' %}"></script>
+  <script src="{% static 'profile/lib/lightbox/js/lightbox.js' %}"></script>
+
+  <!--Link to bootstrap javascript-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <!-- Template Javascript -->
+  <script src="{% static 'profile/js/main.js' %}"></script>
+
+  {% endblock %}
+</body>
+
+</html>
+
+  
