@@ -80,10 +80,12 @@ def user_profile(request, user_id):
 @login_required(login_url='/main/login')
 def profile(request):
     current_user = CustomUser.objects.get(user=request.user)
+    to_do = current_user.tasks.filter(status="To do")
     in_progress = current_user.tasks.filter(status="In progress")
     completed = current_user.tasks.filter(status="Completed")
     return render(request, 'main/profile.html', {
         "user": current_user,
+        "to_do": to_do,
         "in_progress": in_progress,
         "completed": completed,
     })

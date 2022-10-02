@@ -126,7 +126,7 @@
                             <h6>Points: <span class="text-secondary">{{ user.points }}</span></h6>
                         </div>
                         <div class="col-sm-6 py-2">
-                            <h6>Birthday: <span class="text-secondary">1 April 1990</span></h6>
+                            <h6>Birthday: <span class="text-secondary">{{ user.birthday }}</span></h6>
                         </div>
                         <div class="col-sm-6 py-2">
                             <h6>Experience: <span class="text-secondary">10 Years</span></h6>
@@ -144,7 +144,7 @@
     <!-- About End -->
 
 
-    <!-- Qualification Start -->
+    <!-- Tasks Start -->
     <div class="container-fluid py-5" id="tasks">
         <div class="container">
             <div class="position-relative d-flex align-items-center justify-content-center">
@@ -153,19 +153,27 @@
             </div>
             <!--TODO: Add to-do column and check the flexbox to scale properly for 3 columns-->
             <div class="row align-items-center">
-                <div class="col-lg-6 text-center">
-                    <h3 class="mb-4">Current Tasks</h3>
+                <div class="col-md-4 text-center">
+                    <h3 class="mb-4">To Do</h3>
                     <ul class="list-unstyled">
-                        {% for task in in_progress %}
-                        <li>{{ task }}</li>
+                        {% for task in to_do %}
+                        <li>{{ task.name }}</li>
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="col-lg-6 text-center">
+                <div class="col-md-4 text-center">
+                    <h3 class="mb-4">Current Tasks</h3>
+                    <ul class="list-unstyled">
+                        {% for task in in_progress %}
+                        <li>{{ task.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-md-4 text-center">
                     <h3 class="mb-4">Completed Tasks</h3>
                     <ul class="list-unstyled">
                         {% for task in completed %}
-                        <li>{{ task }}</li>
+                        <li>{{ task.name }}</li>
                         {% endfor %}
                     </ul>
                 </div>
