@@ -1,57 +1,92 @@
 {% extends "main/layout.html" %}
 
 {% block body %}
-<h1 class="display-2">Leaderboard</h1>
-<ul>
-    {% for top_user in top_users%}
-    <li> {{top_user.user.username}} {{top_user.points}} </li>
-    {% endfor %}
-</ul>
-<h1 class="display-2">Following</h1>
+{% if birthday_boy %}
+  <div class="alert alert-primary d-flex align-items-center" role="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+    <div>
+      Happy Birthday to {% for birthday_boy in birthday_boy %} {{birthday_boy.user.first_name}} {{birthday_boy.user.last_name}}{% if not forloop.last %},{% endif %} {% endfor %}!
+    </div>
+  </div>
+{% endif %}
+<h1 class="display-3">Leaderboard</h1>
 <table class="table">
     <thead>
     <tr>
+        <th scope="col">#</th>
         <th scope="col">Users</th>
-        <th scope="col">Status</th>
+        <th scope="col">Points</th>
     </tr>
     </thead>
     <tbody>
-        {% for follow in following %}
+        {% for top_user in top_users %}
         <tr>
-            <td scope="row">{{ follow.following.user.username }}</th>
-            <td>Working on
-                {% for task in follow.following.tasks.all %}
-                {% if task.status == 'In progress' %}    
-                {{ task.name }}
-                {% endif %}
-                {% endfor %}
-            </td>
+            <td> {{ forloop.counter }} </td>
+            <td scope="row"><a href="{% url 'main:user_profile' top_user.id %}">{{ top_user.user.username }}</a></th>
+            <td>{{top_user.points}}</td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<h1 class="display-2">Requests</h1>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Users</th>
-        <th scope="col">Status</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for request in requests %}
-    <tr>
-        <td scope="row">{{ request.requestor.user.username }}</th>
-        <td> 
-            <form action="{% url 'main:modify_request' %}" method="post">
-                {% csrf_token %}
-                <input type="hidden" value='{{ request.requestor.id }}' name="requestor_id">
-                <button value="True" name='outcome' type='submit'>Accept</button>
-                <button type='submit'>Reject</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+<div class = "column">
+    <div class = "container">
+    <h1 class="display-3">Following</h1>
+    <div class = "scrollable" >
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Users</th>
+                <th scope="col">Working on</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for follow in following %}
+                <tr>
+                    <td scope="row">{{ follow.following.user.username }} (following since {{ follow.date }})</th>
+                    <td>
+                        {% for task in follow.following.tasks.all %}
+                        {% if task.status == 'In progress' %}
+                        <ul>
+                            <li> {{ task.name }} </li>
+                        </ul>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<div class = "column">
+    <div class = 'container'>
+    <h1 class="display-3">Requests</h1>
+    <div class = "scrollable">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Users</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for request in requests %}
+            <tr>
+                <td scope="row">{{ request.requestor.user.username }}</th>
+                <td> 
+                    <form action="{% url 'main:modify_request' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value='{{ request.requestor.id }}' name="requestor_id">
+                        <button value="True" name='outcome' type='submit'>Accept</button>
+                        <button type='submit'>Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
 {% endblock %}

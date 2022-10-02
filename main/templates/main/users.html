@@ -2,6 +2,7 @@
 
 {% block body %}
     <div class="container">
+        <div class = "scrollable_long">
         <h1 class="display-2">List of users</h1>
         <table class="table">
           <thead>
@@ -15,15 +16,15 @@
             <tr>
               <td scope="row">
                 <a href="{% url 'main:user_profile' user.id %}">{{ user.user.username }}</a>
-              <td>
+              <td>  
                 {% if user in following %}
-                    <h4>Following</h4>
+                <button disabled class="btn btn-secondary">Following</button>
                 {% elif user in requested %}
-                    <h4>Requested</h4>
+                    <button disabled class="btn btn-secondary">Requested</button>
                 {% else %}
                     <form action="{% url 'main:follow' %}" method="post">
                         {% csrf_token %}
-                        <button value='{{ user.id }}' name='user_id' type='submit'>Follow</button>
+                        <button value='{{ user.id }}' name='user_id' type='submit' class="btn btn-info">Follow</button>
                     </form>
                 {% endif %}
               </td>
@@ -31,6 +32,7 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
     </div>
     {% if message %}
         <div>{{ message }}</div>

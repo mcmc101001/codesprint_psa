@@ -17,6 +17,14 @@ def index(request):
     following = Follow.objects.filter(follower = current_user)
     requests = Request.objects.filter(requested = current_user)
     top_users = CustomUser.objects.order_by('-points')[:3]
+    if CustomUser.objects.filter(birthday__day = datetime.now().date().day, birthday__month = datetime.now().date().month):
+        birthday_boy = CustomUser.objects.filter(birthday__day = datetime.now().date().day, birthday__month = datetime.now().date().month)
+        return render(request, "main/index.html", {
+        "following": following,
+        "requests": requests,
+        "top_users": top_users,
+        "birthday_boy": birthday_boy,
+    })
     return render(request, "main/index.html", {
         "following": following,
         "requests": requests,
@@ -69,10 +77,14 @@ def modify_request(request):
 @login_required(login_url='/main/login')
 def user_profile(request, user_id):
     user = CustomUser.objects.get(pk = user_id)
-    tasks = user.tasks.all()
+    to_do = user.tasks.filter(status="To do")
+    in_progress = user.tasks.filter(status="In progress")
+    completed = user.tasks.filter(status="Completed")
     return render(request, 'main/user_profile.html', {
         "user": user,
-        "tasks": tasks,
+        "to_do": to_do,
+        "in_progress": in_progress,
+        "completed": completed,
     })
 
 #### PROFILE MODULE ####
@@ -131,6 +143,34 @@ def update_profile(request):
 # Listings page
 @login_required(login_url='/main/login')
 def marketplace(request):
+    if request.method == "POST":
+        redeemed = Reward.objects.filter(quantity = 0)
+        reward = Reward.objects.get(pk=request.POST["listing_id"])
+        current_user = CustomUser.objects.get(user=request.user)
+        if current_user.points < reward.cost:
+            return render(request, 'main/marketplace.html', {
+                "listings": Reward.objects.all(),
+                "redeemed": redeemed,
+                "message": "Insufficient credits :("
+            })
+        elif reward.quantity <= 0:
+            return render(request, 'main/marketplace.html', {
+                "listings": Reward.objects.all(),
+                "redeemed": redeemed,
+                "message": "Sold out :("
+            })
+        if Cart.objects.filter(user=current_user, reward=reward):
+            cart = Cart.objects.get(user=current_user, reward=reward)
+            cart.count = cart.count + 1
+            cart.save()
+        else: 
+            user_cart = Cart(user=current_user, reward=reward, count=1)
+            user_cart.save()
+        return render(request, 'main/marketplace.html', {
+                "listings": Reward.objects.all(),
+                "redeemed": redeemed,
+                "message": "Added to cart!"
+            })
     redeemed = Reward.objects.filter(quantity = 0)
     return render(request, 'main/marketplace.html', {
         "listings": Reward.objects.all(),

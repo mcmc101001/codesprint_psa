@@ -88,3 +88,23 @@ body {
 .text2 {
     color: #a5aec0
 }
+
+.scrollable {
+    height: 250px;
+    overflow-y: auto;
+}
+
+.scrollable_long {
+    height: 1000px;
+    overflow-y: auto;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+.alert {
+    margin-top: 50px !important;
+    margin-bottom: 0 !important;
+}
