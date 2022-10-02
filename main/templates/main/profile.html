@@ -1,10 +1,12 @@
 {% load static %}
 
-<!DOCTYPE=html>
+<!--Fix the javascript scroll up bug -->
+
+<!DOCTYPE html>
 <html language="en">
 
 <head>
-    <title>Main</title>
+    <title>Profile</title>
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
     
@@ -64,7 +66,14 @@
                     </ul>
                 </nav>
                 <div class="float-right">
-                    <a href="{ % url 'main:logout' %}">Log out</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- <li class="nav-item">
+                            <p class="navbar-brand">Points: {{ user.points }}</p>
+                        </li> -->
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{ % url 'main:logout' %}">Log out</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav> 
@@ -143,6 +152,7 @@
                 <h1 class="display-1 text-uppercase text-white" style="-webkit-text-stroke: 1px #dee2e6;">Tasks</h1>
                 <h1 class="position-absolute text-uppercase text-primary">Tasks</h1>
             </div>
+            <!--TODO: Add to-do column and check the flexbox to scale properly for 3 columns-->
             <div class="row align-items-center">
                 <div class="col-lg-6 text-center">
                     <h3 class="mb-4">Current Tasks</h3>

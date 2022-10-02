@@ -13,6 +13,10 @@ body {
     margin-top: 3px;
 }
 
+.empty-div{
+    margin-top: 3rem !important;
+}
+
 .btn {
     margin-top: 5px;
 }
