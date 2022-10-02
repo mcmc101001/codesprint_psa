@@ -2,10 +2,10 @@
 
 {% block body %}
 {% if birthday_boy %}
-  <div class="alert alert-primary d-flex align-items-center" role="alert">
+<div class="alert alert-primary d-flex align-items-center" role="alert">
     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
     <div>
-      Happy Birthday to {% for birthday_boy in birthday_boy %} {{birthday_boy.user.first_name}} {{birthday_boy.user.last_name}}{% if not forloop.last %},{% endif %} {% endfor %}!
+        Happy Birthday to {% for birthday_boy in birthday_boy %} {{birthday_boy.user.first_name}} {{birthday_boy.user.last_name}}{% if not forloop.last %},{% endif %} {% endfor %}!
     </div>
   </div>
 {% endif %}
