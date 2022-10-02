@@ -14,19 +14,36 @@
           </tr>
         </thead>
         <tbody>
-          {% for reward in rewards %}
-          <tr>
-            <td scope="row">{{ reward.name }}</td>
-            <td>{{ reward.description }}</td>
-            <td>{{ count }}</td>
-            <td>{{ reward.cost }}*{{ count }}</td>
-          </tr>
+          {% for cart_item in rewards %}
+            {% if cart_item.count > 0 %}
+            <tr>
+              <td scope="row">{{ cart_item.reward.name }}</td>
+              <td>{{ cart_item.reward.description }}</td>
+              <td>
+                <form action="{% url 'main:edit_quantity' %}" method="post">
+                {% csrf_token %}
+                <input type='hidden' value={{ cart_item.id }} name='cart_id'>
+                <button value='Minus' name='minus' type='submit'>Minus</button>
+                {{ cart_item.count }}
+                <button value='Add' name='add' type='submit'>Add</button>
+                </form>
+              </td>
+              <td>{% widthratio cart_item.reward.cost 1 cart_item.count %}</td>
+            </tr>
+            {% endif %}
           {% endfor %}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ total_cost }}</td>
+          </tr>
         </tbody>
       </table>
       <form action="{% url 'main:checkout' %}" method="post">
         {% csrf_token %}
-        <button value='cart.id' name='cart_id' type='submit'>Checkout</button>
+        <input type='hidden' value={{ total_cost }} name='total_cost'>
+        <button text-align="right" value='CHECKOUT' name='checkout' type='submit'>Checkout</button>
       </form>
       </div>
         <a href="{% url 'main:logout' %}">Log out</a>

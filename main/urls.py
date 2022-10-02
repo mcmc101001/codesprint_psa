@@ -25,5 +25,6 @@ urlpatterns = [
     path('marketplace', views.marketplace, name="marketplace"),
     path('add_to_cart', views.add_to_cart, name="add_to_cart"),
     path('view_cart', views.view_cart, name="view_cart"),
+    path('edit_quantity', views.edit_quantity, name='edit_quantity'),
     path('checkout', views.checkout, name="checkout"),
 ]

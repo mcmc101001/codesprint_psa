@@ -145,29 +145,70 @@ def add_to_cart(request):
             return render(request, 'main/marketplace.html', {
                 "message": "Sold out :("
             })
-        user_cart = Cart(user=current_user)
-        user_cart.save()
-        user_cart.reward.add(reward)
+        if Cart.objects.filter(user=current_user, reward=reward):
+            cart = Cart.objects.get(user=current_user, reward=reward)
+            cart.count = cart.count + 1
+            cart.save()
+        else: 
+            user_cart = Cart(user=current_user, reward=reward, count=1)
+            user_cart.save()
         return HttpResponseRedirect(reverse('main:marketplace'))
 
             
 def view_cart(request):
     current_user = CustomUser.objects.get(user=request.user)
-    in_cart = []
-    counting = []
-    rewards = Reward.objects.all()
-    for reward in rewards:
-        count = Cart.objects.filter(user=current_user, reward=reward).count()
-        if count:
-            in_cart.append(reward)
-            counting.append(count)
+    cart = Cart.objects.filter(user=current_user)
+    cost = 0
+    for cart_item in cart:
+        cost += cart_item.reward.cost*cart_item.count
     return render(request, 'main/cart.html', {
-        "rewards": in_cart,
-        "count": count
+        "rewards": cart,
+        "total_cost": cost,
     })
 
+def edit_quantity(request):
+    if request.method == 'POST':
+        cart = Cart.objects.get(pk=request.POST["cart_id"])
+        try:
+            outcome = request.POST["add"]
+        except:
+            outcome = "minus"
+        if outcome == "Add":
+            cart.count += 1
+        else:
+            cart.count -= 1
+        cart.save()
+        return HttpResponseRedirect(reverse('main:view_cart'))
+
 def checkout(request):
-    pass
+    if request.method == "POST":
+        current_user = CustomUser.objects.get(user=request.user)
+        cart = Cart.objects.filter(user=current_user)
+        cost = int(request.POST["total_cost"])
+        is_successful = True
+        if current_user.points < cost:
+            message = "Insufficient points!"
+            return HttpResponseRedirect(reverse('main:view_cart'))
+        for cart_item in cart:
+            if cart_item.count > cart_item.reward.quantity:
+                message = "Unable to redeem one or more items due to lack of stock!"
+                cost = cost - cart_item.count*cart_item.reward.cost
+                is_successful = False
+            else: 
+                cart_item.reward.quantity = cart_item.reward.quantity - cart_item.count
+                cart_item.reward.save()
+                cart_item.delete()
+        current_user.points = current_user.points - cost
+        current_user.save()
+        if is_successful:
+            message = "Successfully checked out!"
+        redeemed = Reward.objects.filter(quantity = 0)
+    return render(request, 'main/marketplace.html', {
+        "listings": Reward.objects.all(),
+        "redeemed": redeemed,
+        "message": message,
+    })
+        
 
 #### TASK MODULE ####
 # Tasks page
