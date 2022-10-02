@@ -128,14 +128,18 @@ def update_profile(request):
         current_user.department = department
         current_user.user.save()
         current_user.save()
-        tasks = current_user.tasks.all()
+        to_do = current_user.tasks.filter(status="To do")
+        in_progress = current_user.tasks.filter(status="In progress")
+        completed = current_user.tasks.filter(status="Completed")
         if is_duplicate:
             message = "One or more fields contain duplicates with our records, the rest has been updated."
         else:
             message = "Profile successfully updated"
         return render(request, 'main/profile.html', {
                 "user": current_user,
-                "tasks": tasks,
+                "to_do": to_do,
+                "in_progress": in_progress,
+                "completed": completed,
                 "message": message
             })
 
